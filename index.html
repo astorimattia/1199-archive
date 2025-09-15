@@ -344,6 +344,187 @@
     }
 
 
+    /* Password Protection Overlay */
+    .password-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      font-family: 'Sinkin Sans 900', sans-serif;
+    }
+
+    .password-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      padding: 40px 50px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      max-width: 350px;
+      width: auto;
+    }
+
+    .password-logo {
+      font-size: 80px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      letter-spacing: 0.1em;
+    }
+
+    .password-title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    .password-subtitle {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .password-form {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .password-field-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .password-field-container input {
+      width: 220px;
+    }
+
+
+    .password-input {
+      padding: 12px 32px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 4px;
+      color: white;
+      font-size: 22px;
+      font-family: 'Sinkin Sans 900', sans-serif;
+      text-align: center;
+      letter-spacing: 0.2em;
+      transition: opacity 0.2s, border-color 0.2s;
+      outline: none;
+      opacity: 0.8;
+      box-sizing: border-box;
+    }
+
+    .password-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 22px;
+    }
+
+    .password-input:focus {
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 1);
+    }
+
+    .password-submit {
+      padding: 12px 32px;
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 4px;
+      font-size: 22px;
+      font-family: 'Sinkin Sans 900', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: opacity 0.2s, border-color 0.2s;
+      text-transform: uppercase;
+      opacity: 0.8;
+      display: block;
+      margin: 0 auto;
+      width: 220px;
+      box-sizing: border-box;
+    }
+
+    .password-submit:hover {
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 1);
+    }
+
+
+    .password-container.shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .main-content {
+      display: none;
+      width: 100%;
+    }
+
+    .main-content.unlocked {
+      display: block;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .password-container {
+        padding: 40px 30px;
+        margin: 20px;
+      }
+
+      .password-logo {
+        font-size: 60px;
+      }
+
+      .password-title {
+        font-size: 20px;
+      }
+
+      .password-subtitle {
+        font-size: 12px;
+      }
+
+      .password-input {
+        font-size: 16px;
+        padding: 16px 20px;
+        width: 180px;
+      }
+
+      .password-submit {
+        font-size: 16px;
+        padding: 16px 20px;
+        width: 180px;
+      }
+
+      .password-input::placeholder {
+        font-size: 16px;
+      }
+
+      .password-field-container input {
+        width: 180px;
+      }
+    }
+
   </style>
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -355,10 +536,24 @@
 </head>
 
 <body>
-  <div class="inactive-overlay"></div>
-  <div class="fixed-banner">
-    <div class="banner-title">1199 Capital is inactive and is no longer accepting investments</div>
+  <!-- Password Protection Overlay -->
+  <div class="password-overlay" id="passwordOverlay">
+    <div class="password-container">
+      <form id="passwordForm" class="password-form">
+        <div class="password-field-container">
+          <input type="password" class="password-input" id="passwordInput" placeholder="" autocomplete="off">
+        </div>
+        <button type="submit" class="password-submit">Access</button>
+      </form>
+    </div>
   </div>
+
+  <!-- Main Content (Hidden until password is entered) -->
+  <div class="main-content" id="mainContent">
+    <div class="inactive-overlay"></div>
+    <div class="fixed-banner">
+      <div class="banner-title">1199 Capital is inactive and is no longer accepting investments</div>
+    </div>
   
   <div class="section hero">
     <div class="logo">
@@ -477,7 +672,7 @@
 
 <div class="section email-section">
   <div class="email-top">
-    <a href="javascript:void(0)" class="email-cta disabled-link">[redacted]@1199capital.com</a>
+    <a href="mailto:mattia@1199capital.com" class="email-cta">mattia@1199capital.com</a>
   </div>
   <div class="email-bottom">
     <span class="location"><span class="location-content"><i class="fas fa-location-dot"></i>SF, CA</span></span>
@@ -485,9 +680,62 @@
 </div>
 
 
+  </div> <!-- End main-content -->
+
   <script>
-    // Prevent navigation on all disabled links while keeping hover effects
+    // Password Protection Logic
     document.addEventListener('DOMContentLoaded', function() {
+      const passwordOverlay = document.getElementById('passwordOverlay');
+      const mainContent = document.getElementById('mainContent');
+      const passwordForm = document.getElementById('passwordForm');
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordContainer = document.querySelector('.password-container');
+      const correctPassword = '1199';
+
+      // Check if password was already entered in this session
+      if (sessionStorage.getItem('passwordEntered') === 'true') {
+        passwordOverlay.style.display = 'none';
+        mainContent.classList.add('unlocked');
+      }
+
+      passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const enteredPassword = passwordInput.value.trim();
+        
+        // Remove shake animation
+        passwordContainer.classList.remove('shake');
+        
+        if (enteredPassword === correctPassword) {
+          // Store in session storage
+          sessionStorage.setItem('passwordEntered', 'true');
+          
+          // Hide overlay and show content immediately
+          passwordOverlay.style.opacity = '0';
+          passwordOverlay.style.transition = 'opacity 0.5s ease';
+          
+          setTimeout(() => {
+            passwordOverlay.style.display = 'none';
+            mainContent.classList.add('unlocked');
+          }, 500);
+        } else {
+          // Shake animation and show error in placeholder
+          passwordContainer.classList.add('shake');
+          passwordInput.value = '';
+          passwordInput.placeholder = 'Try again';
+          passwordInput.focus();
+          
+          // Reset placeholder after 3 seconds
+          setTimeout(() => {
+            passwordInput.placeholder = 'Enter password';
+          }, 3000);
+        }
+      });
+
+      // Focus on input when page loads
+      passwordInput.focus();
+
+      // Prevent navigation on all disabled links while keeping hover effects
       const disabledLinks = document.querySelectorAll('.disabled-link');
       
       disabledLinks.forEach(link => {
